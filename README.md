@@ -1,0 +1,1 @@
+Building RNNs to learn more about them. GRUs for now. Was intending to predict stock prices, but will now also try text generation.
