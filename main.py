@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
-from src.model import GRU_Layer
+from src.layers import GRU_Layer
 
 with open("data/sp500_sequences.npy", "rb") as file:
     X = np.load(file)

@@ -14,8 +14,11 @@ data = [train, test, valid]
 for i in range(len(data)):
     data[i] = data[i].replace("#", "")
     data[i] = data[i].replace("\/", "|")
-    data[i] = data[i].replace("<unk>", "@")
+    data[i] = data[i].replace("<unk>", "")
     data[i] = data[i].replace("\*", "")
+    data[i] = data[i].replace("$ N", "V")
+    data[i] = data[i].replace("N ", "")
+    data[i] = data[i].replace("N", "")
 
 chars = set()
 
@@ -30,7 +33,10 @@ for i, c in enumerate(chars):
     int_to_chars.append(c)
     chars_to_int[c] = i
 
+import pickle
 
+with open("int_to_chars", "wb") as file:
+    pickle.dump(int_to_chars, file)
 
 tokens = [[], [], []]
 
@@ -38,11 +44,9 @@ N = len(chars)
 
 for i in range(len(data)):
     for c in data[i]:
-        x = np.zeros(N)
-        x[chars_to_int[c]] = 1
-        tokens[i].append(x)
+        tokens[i].append(chars_to_int[c])
 
-npy_tokens = [np.array(x, dtype=np.float32) for x in tokens]
+npy_tokens = [np.array(x, dtype=np.int8) for x in tokens]
 
 print(npy_tokens[0].shape)
 
@@ -52,8 +56,8 @@ processed_data = []
 filenames = ["train", "test", "valid"]
 
 for j in range(len(npy_tokens)):
-    sequences = np.zeros((len(npy_tokens[j]) - SEQUENCE_LENGTH, SEQUENCE_LENGTH, N), dtype=np.float32)
-    labels = np.zeros((len(npy_tokens[j]) - SEQUENCE_LENGTH, N), dtype=np.float32)
+    sequences = np.zeros((len(npy_tokens[j]) - SEQUENCE_LENGTH, SEQUENCE_LENGTH), dtype=np.int8)
+    labels = np.zeros((len(npy_tokens[j]) - SEQUENCE_LENGTH), dtype=np.int8)
 
 
     for i in range(SEQUENCE_LENGTH, npy_tokens[j].shape[0]):
