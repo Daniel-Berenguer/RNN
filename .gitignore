@@ -10,3 +10,9 @@ X_valid
 Y_train
 Y_test
 Y_valid
+X_train_tokenized
+X_test_tokenized
+X_valid_tokenized
+Y_train_tokenized
+Y_test_tokenized
+Y_valid_tokenized
